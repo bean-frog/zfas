@@ -1,0 +1,120 @@
+/* ZFAS Global Styles */
+
+:root {
+	--bg: #121212;
+	--surface: #1e1e1e;
+	--elevated: #292929;
+
+	--text-primary: #e0e0e0;
+	--text-secondary: #b0b0b0;
+	--text-disabled: #707070;
+
+	--border: #2c2c2c;
+
+	--primary: #155f45;
+	--primary-hover: #1a7a59;
+	--error: #cf6679;
+
+	--font: 'JetBrains Mono', 'Courier New', monospace;
+
+	--radius: 4px;
+	--sidebar-width: 200px;
+	--header-height: 48px;
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html,
+body {
+	height: 100%;
+	background: var(--bg);
+	color: var(--text-primary);
+	font-family: var(--font);
+	font-size: 15px;
+	line-height: 1.5;
+	letter-spacing: 0.3px;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	color: var(--text-primary);
+	text-decoration: none;
+}
+
+button {
+	font-family: var(--font);
+	cursor: pointer;
+	border: none;
+	background: none;
+	font-size: inherit;
+	color: inherit;
+}
+
+input,
+textarea,
+select {
+	font-family: var(--font);
+	font-size: inherit;
+	color: var(--text-primary);
+	background: var(--surface);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	outline: none;
+	line-height: 1.5;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+	border-color: var(--primary);
+}
+
+input::placeholder,
+textarea::placeholder {
+	color: var(--text-disabled);
+}
+
+h1 {
+	font-size: 22px;
+	font-weight: 600;
+}
+
+h2 {
+	font-size: 18px;
+	font-weight: 600;
+}
+
+h3 {
+	font-size: 15px;
+	font-weight: 600;
+}
+
+p {
+	font-size: 14px;
+	color: var(--text-secondary);
+	line-height: 1.5;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--border);
+	border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--text-disabled);
+}
