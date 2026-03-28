@@ -38,12 +38,14 @@ function createCanvasStore() {
 	const { subscribe, set, update } = writable<CanvasState>(initial);
 
 	async function apiFetch(baseUrl: string, apiKey: string, path: string): Promise<unknown> {
-		const url = `${baseUrl.replace(/\/$/, '')}/api/v1${path}`;
-		const res = await fetch(url, {
-			headers: { Authorization: `Bearer ${apiKey}` }
+		const res = await fetch('/api/canvas', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ baseUrl, apiKey, path })
 		});
-		if (!res.ok) throw new Error(`Canvas API error: ${res.status} ${res.statusText}`);
-		return res.json();
+		const data = await res.json();
+		if (!res.ok) throw new Error(data.error || `Canvas API error: ${res.status}`);
+		return data;
 	}
 
 	return {

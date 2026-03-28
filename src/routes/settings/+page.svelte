@@ -20,6 +20,7 @@
 		canvasLoading = true;
 		canvasError = '';
 		canvasSuccess = false;
+		settingsStore.set(settings);
 		await canvasStore.fetch(settings.canvasBaseUrl, settings.canvasApiKey);
 		const state = $canvasStore;
 		canvasLoading = false;
@@ -27,8 +28,6 @@
 			canvasError = state.error;
 		} else {
 			canvasSuccess = true;
-			// Persist keys
-			settingsStore.set(settings);
 		}
 	}
 

@@ -1,6 +1,16 @@
 import { writable } from 'svelte/store';
 import { browser } from '$app/environment';
 
+// Simple reversible obfuscation — not true security, just avoids plaintext in localStorage
+function encode(s: string): string {
+	if (!s) return s;
+	return btoa(s);
+}
+function decode(s: string): string {
+	if (!s) return s;
+	try { return atob(s); } catch { return s; } // fallback for any legacy plaintext
+}
+
 export interface Settings {
 	font: string;
 	primaryColor: string;
@@ -20,7 +30,9 @@ function loadSettings(): Settings {
 	try {
 		const raw = localStorage.getItem('zfas_settings');
 		if (!raw) return defaults;
-		return { ...defaults, ...JSON.parse(raw) };
+		const parsed = JSON.parse(raw);
+		if (parsed.canvasApiKey) parsed.canvasApiKey = decode(parsed.canvasApiKey);
+		return { ...defaults, ...parsed };
 	} catch {
 		return defaults;
 	}
@@ -32,13 +44,19 @@ function createSettingsStore() {
 	return {
 		subscribe,
 		set: (value: Settings) => {
-			if (browser) localStorage.setItem('zfas_settings', JSON.stringify(value));
+			if (browser) {
+				const toStore = { ...value, canvasApiKey: encode(value.canvasApiKey) };
+				localStorage.setItem('zfas_settings', JSON.stringify(toStore));
+			}
 			set(value);
 		},
 		update: (fn: (s: Settings) => Settings) => {
 			update((s) => {
 				const next = fn(s);
-				if (browser) localStorage.setItem('zfas_settings', JSON.stringify(next));
+				if (browser) {
+					const toStore = { ...next, canvasApiKey: encode(next.canvasApiKey) };
+					localStorage.setItem('zfas_settings', JSON.stringify(toStore));
+				}
 				return next;
 			});
 		}
