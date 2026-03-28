@@ -27,7 +27,7 @@
 
 	<div class="sidebar-footer">
 		<a
-			href="https://github.com"
+			href="https://github.com/bean-frog/zfas"
 			target="_blank"
 			rel="noopener"
 			class="footer-link"

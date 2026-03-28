@@ -167,7 +167,7 @@
 				Inspired by <a href="https://suckless.org" target="_blank" rel="noopener">suckless.org</a>.
 			</p>
 			<p>
-				<a href="https://github.com" target="_blank" rel="noopener">View on GitHub</a>
+				<a href="https://github.com/bean-frog/zfas" target="_blank" rel="noopener">View on GitHub</a>
 				· Contributions welcome · Submit a pull request
 			</p>
 		</div>

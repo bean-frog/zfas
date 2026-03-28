@@ -1,8 +1,13 @@
 <script lang="ts">
+	import katex from 'katex';
 	import type { Flashcard } from '$lib/stores/flashcardStore';
 
 	export let card: Flashcard;
 	export let flipped = false;
+
+	$: latexHtml = card.latex
+		? katex.renderToString(card.latex, { displayMode: true, throwOnError: false })
+		: '';
 
 	function toggle() {
 		flipped = !flipped;
@@ -21,7 +26,7 @@
 		<div class="card-face card-back">
 			<div class="card-text">{card.back}</div>
 			{#if card.latex}
-				<div class="card-latex">{card.latex}</div>
+				<div class="card-latex">{@html latexHtml}</div>
 			{/if}
 			{#if card.image}
 				<img src={card.image} alt="card visual" class="card-image" />
@@ -93,15 +98,10 @@
 	}
 
 	.card-latex {
-		font-family: monospace;
-		font-size: clamp(11px, 1.8vw, 15px);
-		color: var(--text-secondary);
-		background: var(--elevated, rgba(0,0,0,0.05));
-		border-radius: 4px;
-		padding: 4px 10px;
 		max-width: 100%;
 		overflow-x: auto;
-		white-space: pre;
+		display: flex;
+		justify-content: center;
 	}
 
 	.card-text {

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.css';
+	import 'katex/dist/katex.min.css';
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
@@ -50,7 +51,7 @@
 				</div>
 				<div class="onboarding-cta">
 					<p class="cta-text">If you find ZFAS useful, please star the repo and consider contributing. Pull requests welcome.</p>
-					<a href="https://github.com" target="_blank" rel="noopener" class="github-link">Star on GitHub</a>
+					<a href="https://github.com/bean-frog/zfas" target="_blank" rel="noopener" class="github-link">Star on GitHub</a>
 				</div>
 			</div>
 			<div class="onboarding-footer">
