@@ -97,7 +97,7 @@ export function renderMarkdown(md: string): string {
 	html = `<p>${html}</p>`;
 
 	// Single newlines → <br>
-	html = html.replace(/(?<!>)\n(?!<)/g, '<br />');
+	html = html.replace(/\n/g, '<br />');
 
 	// Clean up empty paragraphs and block-level elements wrapped in <p>
 	html = html.replace(/<p><\/p>/g, '');
