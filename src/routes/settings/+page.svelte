@@ -1,14 +1,54 @@
 <script lang="ts">
 	import { settingsStore } from '$lib/stores/settingsStore';
 	import { canvasStore } from '$lib/stores/canvasStore';
+	import { flashcardStore } from '$lib/stores/flashcardStore';
+	import { notesStore } from '$lib/stores/notesStore';
+	import { timerStore } from '$lib/stores/timerStore';
+	import { exportBackupZip, importBackupZip, pickZipFile } from '$lib/utils/zipBackup';
 	import Button from '$lib/components/common/Button.svelte';
 	import Input from '$lib/components/common/Input.svelte';
+	import { get } from 'svelte/store';
 
 	let settings = { ...$settingsStore };
 	let saved = false;
 	let canvasLoading = false;
 	let canvasError = '';
 	let canvasSuccess = false;
+	let importError = '';
+	let importSuccess = '';
+
+	async function exportBackup() {
+		await exportBackupZip({
+			flashcards: get(flashcardStore),
+			notes: get(notesStore),
+			timerPresets: get(timerStore).presets
+		});
+	}
+
+	async function importBackup() {
+		importError = '';
+		importSuccess = '';
+		try {
+			const file = await pickZipFile();
+			const data = await importBackupZip(file);
+			if (data.flashcards) flashcardStore.importSets(data.flashcards);
+			if (data.notes) notesStore.importNotes(data.notes);
+			// Timer presets are replaced (no merge ID logic), only import if present
+			if (data.timerPresets && data.timerPresets.length > 0) {
+				const existing = get(timerStore).presets;
+				const existingNames = new Set(existing.map((p) => p.name));
+				for (const preset of data.timerPresets) {
+					if (!existingNames.has(preset.name)) {
+						timerStore.addPreset({ name: preset.name, workDuration: preset.workDuration, breakDuration: preset.breakDuration });
+					}
+				}
+			}
+			importSuccess = 'Backup imported successfully.';
+			setTimeout(() => (importSuccess = ''), 3000);
+		} catch (e) {
+			importError = e instanceof Error ? e.message : 'Import failed.';
+		}
+	}
 
 	function save() {
 		settingsStore.set(settings);
@@ -137,6 +177,8 @@
 			All ZFAS data is stored in your browser's localStorage. Nothing is sent to any server.
 		</p>
 		<div class="data-actions">
+			<Button variant="secondary" size="sm" on:click={exportBackup}>Export Backup (.zip)</Button>
+			<Button variant="secondary" size="sm" on:click={importBackup}>Import Backup (.zip)</Button>
 			<Button
 				variant="danger"
 				size="sm"
@@ -150,6 +192,12 @@
 				Clear All Data
 			</Button>
 		</div>
+		{#if importSuccess}
+			<span class="success-msg">{importSuccess}</span>
+		{/if}
+		{#if importError}
+			<span class="error-msg">{importError}</span>
+		{/if}
 	</section>
 
 	<div class="save-row">

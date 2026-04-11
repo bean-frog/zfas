@@ -18,7 +18,7 @@
 	$: embed = $page.url.searchParams.get('embed') === 'true';
 
 	onMount(() => {
-		if (!hasVisited()) {
+		if (!hasVisited() && !embed) {
 			showOnboarding = true;
 		}
 	});
@@ -39,7 +39,7 @@
 			<div class="onboarding-body">
 				<p>Plain, simple tools that just work. No tracking, no subscriptions, no paywalls.</p>
 				<p>
-					Inspired by the <a href="https://suckless.org" target="_blank" rel="noopener">suckless philosophy</a> — 
+					Inspired by the <a href="https://suckless.org/philosophy/#:~:text=Our%20philosophy%20is%20about%20keeping%20things%20simple%2C%20minimal%20and%20usable" target="_blank" rel="noopener">suckless philosophy</a> — 
 					software should be small, fast, and reliable.
 				</p>
 				<p>Built by students, for students.</p>
@@ -47,6 +47,7 @@
 					<div class="tool-item"><span class="tool-name">Flashcards</span><span class="tool-desc">Create sets, study, and play review games</span></div>
 					<div class="tool-item"><span class="tool-name">Notes</span><span class="tool-desc">Markdown notes, saved locally</span></div>
 					<div class="tool-item"><span class="tool-name">Timer</span><span class="tool-desc">Pomodoro and custom study timers</span></div>
+						<div class="tool-item"><span class="tool-name">Reader</span><span class="tool-desc">Speed reader with adjustable WPM</span></div>
 					<div class="tool-item"><span class="tool-name">Dashboard</span><span class="tool-desc">Canvas grades and assignments</span></div>
 				</div>
 				<div class="onboarding-cta">

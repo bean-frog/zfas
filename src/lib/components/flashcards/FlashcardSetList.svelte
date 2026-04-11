@@ -120,6 +120,7 @@
 					<div class="set-actions">
 						<Button variant="ghost" size="sm" on:click={() => dispatch('study', { set })}>Study</Button>
 						<Button variant="ghost" size="sm" on:click={() => dispatch('match', { set })}>Match</Button>
+						<Button variant="ghost" size="sm" on:click={() => dispatch('quiz', { set })}>Quiz</Button>
 						<Button variant="ghost" size="sm" on:click={() => dispatch('edit', { set })}>Edit</Button>
 						<button class="icon-btn" on:click={() => exportSet(set)} title="Export">↓</button>
 						<button class="icon-btn danger" on:click={() => deleteSet(set)} title="Delete">✕</button>

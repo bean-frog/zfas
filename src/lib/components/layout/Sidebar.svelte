@@ -6,6 +6,7 @@
 		{ href: '/flashcards', label: 'Flashcards' },
 		{ href: '/notes', label: 'Notes' },
 		{ href: '/timer', label: 'Timer' },
+		{ href: '/reader', label: 'Reader' },
 		{ href: '/settings', label: 'Settings' }
 	];
 </script>

@@ -5,9 +5,10 @@
 	import FlashcardEditor from '$lib/components/flashcards/FlashcardEditor.svelte';
 	import StudyView from '$lib/components/flashcards/StudyView.svelte';
 	import MatchingGame from '$lib/components/flashcards/MatchingGame.svelte';
+	import QuizView from '$lib/components/flashcards/QuizView.svelte';
 	import { flashcardStore, type FlashcardSet } from '$lib/stores/flashcardStore';
 
-	type View = 'list' | 'edit' | 'study' | 'match';
+	type View = 'list' | 'edit' | 'study' | 'match' | 'quiz';
 
 	let view: View = 'list';
 	let activeSet: FlashcardSet | null = null;
@@ -49,6 +50,15 @@
 		view = 'match';
 	}
 
+	function handleQuiz(e: CustomEvent<{ set: FlashcardSet }>) {
+		if (e.detail.set.cards.length === 0) {
+			alert('Add some cards before starting a quiz.');
+			return;
+		}
+		activeSet = e.detail.set;
+		view = 'quiz';
+	}
+
 	// Keep activeSet reactive to store updates (e.g. after editing cards)
 	$: if (activeSet) {
 		const updated = $flashcardStore.find((s) => s.id === activeSet!.id);
@@ -61,6 +71,7 @@
 		on:edit={handleEdit}
 		on:study={handleStudy}
 		on:match={handleMatch}
+		on:quiz={handleQuiz}
 	/>
 {:else if view === 'edit' && activeSet}
 	<FlashcardEditor set={activeSet} on:back={goList} />
@@ -68,4 +79,6 @@
 	<StudyView set={activeSet} on:back={goList} />
 {:else if view === 'match' && activeSet}
 	<MatchingGame set={activeSet} on:back={goList} />
+{:else if view === 'quiz' && activeSet}
+	<QuizView set={activeSet} on:back={goList} />
 {/if}

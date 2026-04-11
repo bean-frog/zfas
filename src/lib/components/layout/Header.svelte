@@ -3,7 +3,13 @@
 	import { goto } from '$app/navigation';
 	import { flashcardStore } from '$lib/stores/flashcardStore';
 	import { notesStore } from '$lib/stores/notesStore';
+	import { timerStore } from '$lib/stores/timerStore';
+	import { formatSeconds } from '$lib/utils/markdownParser';
 	import { get } from 'svelte/store';
+
+	$: timerRunning = $timerStore.running;
+	$: timerPhase = $timerStore.phase;
+	$: timerRemaining = $timerStore.remaining;
 
 	let query = '';
 	let results: Array<{ type: string; label: string; href: string }> = [];
@@ -91,6 +97,13 @@
 			</div>
 		{/if}
 	</div>
+
+	{#if timerRunning}
+		<a href="/timer" class="timer-pill">
+			<span class="timer-phase">{timerPhase}</span>
+			<span class="timer-remaining">{formatSeconds(timerRemaining)}</span>
+		</a>
+	{/if}
 </header>
 
 <style>
@@ -172,5 +185,35 @@
 		padding: 10px 12px;
 		font-size: 12px;
 		color: var(--text-disabled);
+	}
+
+	.timer-pill {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		padding: 4px 10px;
+		background: var(--elevated);
+		border: 1px solid var(--border);
+		border-radius: var(--radius);
+		text-decoration: none;
+		flex-shrink: 0;
+	}
+
+	.timer-pill:hover {
+		border-color: var(--primary);
+	}
+
+	.timer-phase {
+		font-size: 10px;
+		color: var(--primary);
+		font-weight: 600;
+		letter-spacing: 0.5px;
+		text-transform: uppercase;
+	}
+
+	.timer-remaining {
+		font-size: 12px;
+		color: var(--text-primary);
+		font-variant-numeric: tabular-nums;
 	}
 </style>
