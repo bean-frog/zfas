@@ -77,7 +77,7 @@
 </script>
 
 <header class="header">
-	<a href="/" class="brand">ZFAS</a>
+	<a href="/" class="brand">ZFAS <span class="commit">{__GIT_COMMIT__}</span></a>
 
 	<div class="search-wrap" on:focusin={() => query && (showResults = true)} on:focusout={handleBlur}>
 		<SearchBar bind:value={query} on:input={handleInput} placeholder="Search flashcards, notes..." />
@@ -128,6 +128,14 @@
 		white-space: nowrap;
 		letter-spacing: 1px;
 		text-decoration: none;
+	}
+
+	.commit {
+		font-size: 10px;
+		font-weight: 400;
+		letter-spacing: 0;
+		color: var(--text-disabled);
+		font-family: monospace;
 	}
 
 	.search-wrap {
